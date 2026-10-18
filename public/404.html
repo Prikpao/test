@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Oakridge Academy - Redirecting...</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // Redirects 404 paths to index.html with query parameter
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const repoName = pathSegments[0] || '';
+      window.location.replace(
+        window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/' + repoName + '/?p=' + encodeURIComponent(window.location.pathname)
+      );
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to Oakridge Academy Portal...</p>
+  </body>
+</html>
