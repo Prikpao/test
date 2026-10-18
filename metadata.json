@@ -1,0 +1,6 @@
+{
+  "name": "Oakridge Academy - Student & Campus Hub",
+  "description": "Comprehensive school portal featuring facility and music room reservations, dynamic spreadsheet-linked cafeteria menus, reading activity score sheets, and unified campus service links.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
