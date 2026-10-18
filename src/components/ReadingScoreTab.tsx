@@ -82,12 +82,15 @@ export const ReadingScoreTab: React.FC<ReadingScoreTabProps> = ({
 
   const currentCalculatedPoints = calculatePoints(totalPages, comprehensionScore, rating, summary);
 
+  const [formError, setFormError] = useState<string | null>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!bookTitle.trim() || !author.trim() || !summary.trim()) {
-      alert('Please fill in book title, author, and reading reflection.');
+      setFormError('Please fill in book title, author, and reading reflection.');
       return;
     }
+    setFormError(null);
 
     const newEntry: ReadingEntry = {
       id: `rd-${Date.now().toString().slice(-6)}`,
@@ -387,9 +390,7 @@ export const ReadingScoreTab: React.FC<ReadingScoreTabProps> = ({
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (window.confirm(`Delete reading sheet entry for "${item.bookTitle}"?`)) {
-                        onDeleteEntry(item.id);
-                      }
+                      onDeleteEntry(item.id);
                     }}
                     className="text-slate-500 hover:text-rose-400 p-1"
                     title="Remove Entry"
@@ -424,6 +425,11 @@ export const ReadingScoreTab: React.FC<ReadingScoreTabProps> = ({
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1">
+              {formError && (
+                <div className="p-3 bg-rose-950/60 border border-rose-800 text-rose-300 rounded-xl text-xs">
+                  {formError}
+                </div>
+              )}
               {/* Student identity */}
               <div className="grid grid-cols-2 gap-3">
                 <div>

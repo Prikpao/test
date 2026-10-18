@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   X, 
   Calendar, 
@@ -29,6 +29,7 @@ export const BookingPassModal: React.FC<BookingPassModalProps> = ({
   onClose,
   onCancelBooking
 }) => {
+  const [confirmCancel, setConfirmCancel] = useState(false);
   if (!isOpen || !booking) return null;
 
   // Generate .ics calendar file content
@@ -185,17 +186,34 @@ export const BookingPassModal: React.FC<BookingPassModalProps> = ({
 
         {/* Modal Actions */}
         <div className="px-6 py-4 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs print:hidden">
-          <button
-            onClick={() => {
-              if (window.confirm("Cancel this reservation? The slot will become available for others.")) {
-                onCancelBooking(booking.id);
-                onClose();
-              }
-            }}
-            className="text-rose-400 hover:text-rose-300 font-medium transition"
-          >
-            Cancel Reservation
-          </button>
+          {confirmCancel ? (
+            <div className="flex items-center gap-2">
+              <span className="text-rose-400 font-medium">Confirm cancel?</span>
+              <button
+                onClick={() => {
+                  onCancelBooking(booking.id);
+                  onClose();
+                  setConfirmCancel(false);
+                }}
+                className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-semibold"
+              >
+                Yes, Cancel
+              </button>
+              <button
+                onClick={() => setConfirmCancel(false)}
+                className="px-2 py-1 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700"
+              >
+                No
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setConfirmCancel(true)}
+              className="text-rose-400 hover:text-rose-300 font-medium transition"
+            >
+              Cancel Reservation
+            </button>
+          )}
 
           <div className="flex items-center gap-2">
             <button

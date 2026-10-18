@@ -262,7 +262,16 @@ export const SMSPreviewModal: React.FC<SMSPreviewModalProps> = ({ isOpen, onClos
           </span>
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => alert("Official Transcript PDF generated and queued for download.")}
+              onClick={() => {
+                const link = document.createElement('a');
+                const content = 'Oakridge Academy - Unofficial Academic Transcript\nStudent: Julian Sterling (OAK-2490)\nTerm: Fall 2026\nGPA: 3.94 / 4.0\nStatus: Honors';
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Julian_Sterling_Transcript_Fall2026.txt';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
               className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5"
             >
               <Download className="w-3.5 h-3.5" />

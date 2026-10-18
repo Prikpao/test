@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { PortalLinkItem } from '../types';
 import { PORTAL_LINKS } from '../data/initialData';
+import { safeStorage } from '../utils/storage';
 
 interface PortalsTabProps {
   onOpenSMS: () => void;
@@ -29,7 +30,7 @@ export const PortalsTab: React.FC<PortalsTabProps> = ({
   onOpenReadingScore
 }) => {
   const [links, setLinks] = useState<PortalLinkItem[]>(() => {
-    const saved = localStorage.getItem('oakridge_custom_portal_links');
+    const saved = safeStorage.getItem('oakridge_custom_portal_links');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -64,7 +65,7 @@ export const PortalsTab: React.FC<PortalsTabProps> = ({
 
     const updated = [...links, newLink];
     setLinks(updated);
-    localStorage.setItem('oakridge_custom_portal_links', JSON.stringify(updated));
+    safeStorage.setItem('oakridge_custom_portal_links', JSON.stringify(updated));
     setIsAddModalOpen(false);
     setNewTitle('');
     setNewDesc('');
@@ -74,7 +75,7 @@ export const PortalsTab: React.FC<PortalsTabProps> = ({
   const handleDeleteCustomLink = (id: string) => {
     const updated = links.filter(l => l.id !== id);
     setLinks(updated);
-    localStorage.setItem('oakridge_custom_portal_links', JSON.stringify(updated));
+    safeStorage.setItem('oakridge_custom_portal_links', JSON.stringify(updated));
   };
 
   const getIcon = (iconName: string) => {

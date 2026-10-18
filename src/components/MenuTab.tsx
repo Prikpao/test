@@ -21,6 +21,7 @@ import {
 import { MenuItem } from '../types';
 import { parseCSV, csvRowsToMenuItems, generateSampleMenuCSV } from '../utils/csvParser';
 import { INITIAL_MENU_ITEMS } from '../data/initialData';
+import { safeStorage } from '../utils/storage';
 
 interface MenuTabProps {
   menuItems: MenuItem[];
@@ -30,10 +31,10 @@ interface MenuTabProps {
 export const MenuTab: React.FC<MenuTabProps> = ({ menuItems, setMenuItems }) => {
   const [viewMode, setViewMode] = useState<'cards' | 'spreadsheet'>('cards');
   const [sheetUrl, setSheetUrl] = useState<string>(() => {
-    return localStorage.getItem('oakridge_menu_sheet_url') || '';
+    return safeStorage.getItem('oakridge_menu_sheet_url') || '';
   });
   const [lastSyncedTime, setLastSyncedTime] = useState<string | null>(() => {
-    return localStorage.getItem('oakridge_menu_last_sync') || 'Just now';
+    return safeStorage.getItem('oakridge_menu_last_sync') || 'Just now';
   });
   const [isLoading, setIsLoading] = useState(false);
   const [syncStatus, setSyncStatus] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
@@ -79,9 +80,9 @@ export const MenuTab: React.FC<MenuTabProps> = ({ menuItems, setMenuItems }) => 
       setMenuItems(parsedItems);
       const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       setLastSyncedTime(nowStr);
-      localStorage.setItem('oakridge_menu_sheet_url', urlToFetch.trim());
-      localStorage.setItem('oakridge_menu_last_sync', nowStr);
-      localStorage.setItem('oakridge_saved_menu_items', JSON.stringify(parsedItems));
+      safeStorage.setItem('oakridge_menu_sheet_url', urlToFetch.trim());
+      safeStorage.setItem('oakridge_menu_last_sync', nowStr);
+      safeStorage.setItem('oakridge_saved_menu_items', JSON.stringify(parsedItems));
 
       setSyncStatus({
         type: 'success',

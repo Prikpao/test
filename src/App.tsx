@@ -7,6 +7,7 @@ import { ReadingScoreTab } from './components/ReadingScoreTab';
 import { PortalsTab } from './components/PortalsTab';
 import { SMSPreviewModal } from './components/SMSPreviewModal';
 import { LibraryModal } from './components/LibraryModal';
+import { safeStorage } from './utils/storage';
 import { 
   INITIAL_BOOKINGS, 
   INITIAL_MENU_ITEMS, 
@@ -37,7 +38,7 @@ export default function App() {
 
   // Room Bookings State
   const [bookings, setBookings] = useState<RoomBooking[]>(() => {
-    const saved = localStorage.getItem('oakridge_room_bookings');
+    const saved = safeStorage.getItem('oakridge_room_bookings');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -50,7 +51,7 @@ export default function App() {
 
   // Cafeteria Menu State
   const [menuItems, setMenuItems] = useState<MenuItem[]>(() => {
-    const saved = localStorage.getItem('oakridge_saved_menu_items');
+    const saved = safeStorage.getItem('oakridge_saved_menu_items');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -63,7 +64,7 @@ export default function App() {
 
   // Reading Score Sheet State
   const [readingEntries, setReadingEntries] = useState<ReadingEntry[]>(() => {
-    const saved = localStorage.getItem('oakridge_reading_entries');
+    const saved = safeStorage.getItem('oakridge_reading_entries');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -76,17 +77,17 @@ export default function App() {
 
   // Persist bookings
   useEffect(() => {
-    localStorage.setItem('oakridge_room_bookings', JSON.stringify(bookings));
+    safeStorage.setItem('oakridge_room_bookings', JSON.stringify(bookings));
   }, [bookings]);
 
   // Persist reading entries
   useEffect(() => {
-    localStorage.setItem('oakridge_reading_entries', JSON.stringify(readingEntries));
+    safeStorage.setItem('oakridge_reading_entries', JSON.stringify(readingEntries));
   }, [readingEntries]);
 
   // Persist menu items
   useEffect(() => {
-    localStorage.setItem('oakridge_saved_menu_items', JSON.stringify(menuItems));
+    safeStorage.setItem('oakridge_saved_menu_items', JSON.stringify(menuItems));
   }, [menuItems]);
 
   const handleAddBooking = (newBooking: RoomBooking) => {

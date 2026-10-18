@@ -528,11 +528,7 @@ export const RoomBookingTab: React.FC<RoomBookingTabProps> = ({
                     </button>
 
                     <button
-                      onClick={() => {
-                        if (window.confirm(`Cancel reservation for ${b.roomName} on ${b.date}?`)) {
-                          onCancelBooking(b.id);
-                        }
-                      }}
+                      onClick={() => onCancelBooking(b.id)}
                       className="text-slate-400 hover:text-rose-400 p-1 rounded transition"
                       title="Cancel Booking"
                     >
